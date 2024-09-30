@@ -1,4 +1,4 @@
-# ProyectoBackend_TourPlus
+# TourPlus
 
 ¡Bienvenidos a TourPlus! En un mundo donde la planificación de viajes puede ser abrumadora y desorganizada, nuestra plataforma se presenta como la solución integral que todos los viajeros estaban esperando. TourPlus es una aplicación web y móvil intuitiva diseñada para facilitar la exploración, comparación y reserva de tours turísticos de manera sencilla y eficiente.
 
