@@ -1,18 +1,16 @@
-package com.dbp.backendtourplus.tour.domain;
+package com.dbp.backendtourplus.tour.dto;
 
 import com.dbp.backendtourplus.review.domain.Review;
-import jakarta.persistence.*;
+import com.dbp.backendtourplus.tour.domain.TourCategory;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
+
 import java.util.List;
-@Entity
+
 @Data
-public class Tour {
+public class TourResponseDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    private String title;
+    private String tittle;
 
     private String description;
 
