@@ -5,7 +5,7 @@ FROM openjdk:21-jdk-slim
 WORKDIR /app
 
 # Copy the application's jar to the container
-COPY target/backendtourplus-0.0.1-SNAPSHOT.jar app.jar
+COPY target/BackendTourPlus-0.0.1-SNAPSHOT.jar app.jar
 
 # Make port 8080 available to the world outside this container
 EXPOSE 8080
