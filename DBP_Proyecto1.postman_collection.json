@@ -1,0 +1,1026 @@
+{
+	"info": {
+		"_postman_id": "2a816c04-a27f-440c-81b7-8db6f4158e74",
+		"name": "DBP_Proyecto1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37714527"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Registrar Usario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/auth/register",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						},
+						"description": "## **1\\. POST - Registrar Usuario**\n\n### **Descripción:**\n\nEste endpoint permite **registrar un nuevo usuario** en el sistema. El cuerpo de la solicitud debe incluir los datos del usuario, como nombre, apellido, correo electrónico y contraseña. Todos los campos son **obligatorios** y se validan para asegurar que la información ingresada sea correcta.\n\n### **URL:**\n\nPOST - /api/auth/register\n\n### **Body (JSON) de la Solicitud:**\n\n``` json\n{\n  \"firstname\": \"Luis\",\n  \"lastname\": \"Pérez\",\n  \"email\": \"luis@example.com\",\n  \"password\": \"123456\"\n}\n\n ```\n\n### Respuestas\n\n**Usuario creado correctamente:**  \n201 Created - User registered successfully\n\nUsuario ya existente  \n409 Conflict - User Already Exist\n\n**Email en uso:**\n\n409 Conflict - El email ya está en uso"
+					},
+					"response": []
+				},
+				{
+					"name": "Login Uusario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/auth/login",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						},
+						"description": "## **2\\. POST - Login Usuario**\n\n### **Descripción:**\n\nEste endpoint permite **autenticar a un usuario utilizando su correo electrónico y contraseña.** Si las credenciales son correctas, se devuelve un token JWT que permite acceder a los recursos protegidos de la API.\n\n### **URL:**\n\nPOST - /api/auth/login\n\n### **Body (JSON) de la Solicitud:**\n\n``` json\n{\n  \"email\": \"luis@example.com\",\n  \"password\": \"123456\"\n}\n\n ```\n\n### Respuestas\n\n**Autenticación Exitosa:**  \n200 OK\n\nCredenciales Inválidas:  \n401 Unauthorized - Credenciales inválidas"
+					},
+					"response": []
+				}
+			] 
+		},
+		{
+			"name": "Booking",
+			"item": [
+				{
+					"name": "Obtener todas las reservas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/bookings",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"bookings"
+							]
+						},
+						"description": "## **1\\. GET - Obtener todas las reservas**\n\n### **Descripción:**\n\nEste endpoint permite **obtener la lista de todas las reservas** realizadas en el sistema.\n\n### **URL:**\n\nGET /api/bookings\n\n### **Respuestas:**\n\n**Reservas obtenidas correctamente:**  \n**200 OK**\n\n### **Body (JSON) de la Solicitud:**\n\n``` json\n[\n  {\n    \"id\": 1,\n    \"bookingDate\": \"2024-12-01\",\n    \"bookingStatus\": \"CONFIRMED\",\n    \"tourInstance\": {\n      \"id\": 101,\n      \"tour\": {\n        \"id\": 1001,\n        \"name\": \"Machu Picchu Experience\"\n      },\n      \"languageStatus\": \"ENGLISH\",\n      \"tourDuration\": 5.5,\n      \"startDate\": \"2024-12-01T08:00:00\",\n      \"endDate\": \"2024-12-01T13:30:00\"\n    },\n    \"person\": {\n      \"id\": 501,\n      \"firstname\": \"Luis\",\n      \"lastname\": \"Pérez\",\n      \"user\": {\n        \"id\": 1001,\n        \"username\": \"luis123\"\n      }\n    },\n    \"createdAt\": \"2024-10-13T10:30:00\",\n    \"updatedAt\": \"2024-10-13T10:30:00\"\n  }\n]\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener reserva por id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/bookings/{id}",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"bookings",
+								"{id}"
+							]
+						},
+						"description": "## **2\\. GET - Obtener una reserva por ID**\n\n### **Descripción:**\n\nEste endpoint permite **obtener los detalles de una reserva** específica por su **ID**.  \n**Permisos:** Requiere que el usuario esté **autenticado**.\n\n### **URL:**\n\nGET /api/bookings/{id}\n\n### **Parámetro de Ruta:**\n\n`id`: ID de la reserva a obtener.\n\n### **Respuestas:**\n\n**Reserva encontrada:**  \n**200 OK**\n\n``` json\n{\n  \"id\": 1,\n  \"bookingDate\": \"2024-12-01\",\n  \"bookingStatus\": \"CONFIRMED\",\n  \"tourInstance\": {\n    \"id\": 101,\n    \"tour\": {\n      \"id\": 1001,\n      \"name\": \"Machu Picchu Experience\"\n    },\n    \"languageStatus\": \"ENGLISH\",\n    \"tourDuration\": 5.5,\n    \"startDate\": \"2024-12-01T08:00:00\",\n    \"endDate\": \"2024-12-01T13:30:00\"\n  },\n  \"person\": {\n    \"id\": 501,\n    \"firstname\": \"Luis\",\n    \"lastname\": \"Pérez\",\n    \"user\": {\n      \"id\": 1001,\n      \"username\": \"luis123\"\n    }\n  },\n  \"createdAt\": \"2024-10-13T10:30:00\",\n  \"updatedAt\": \"2024-10-13T10:30:00\"\n}\n\n ```\n\n404 Not Found - Booking not found with id:"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear una Reserva",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/bookings",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"bookings"
+							]
+						},
+						"description": "## **3\\. POST - Crear una nueva reserva**\n\n### **Descripción:**\n\nEste endpoint permite **crear una nueva reserva**. Los datos de la reserva se envían en el **body** de la solicitud.  \n**Permisos:** Requiere que el usuario esté **autenticado**.\n\n### **URL:**\n\nPOST /api/bookings\n\nCuerpo de solicitud:\n\n``` json\n{\n  \"bookingDate\": \"2024-12-01\",\n  \"bookingStatus\": \"CONFIRMED\",\n  \"tourInstance\": {\n    \"id\": 101,\n    \"languageStatus\": \"ENGLISH\",\n    \"tourDuration\": 5.5,\n    \"startDate\": \"2024-12-01T08:00:00\",\n    \"endDate\": \"2024-12-01T13:30:00\",\n    \"tour\": {\n      \"id\": 1001,\n      \"name\": \"Machu Picchu Experience\"\n    }\n  },\n  \"user\": {\n    \"id\": 501,\n    \"firstname\": \"Luis\",\n    \"lastname\": \"Pérez\",\n    \"user\": {\n      \"id\": 1001,\n      \"username\": \"luis123\"\n    }\n  }\n}\n\n ```\n\nRespuesta\n\n``` json\n{\n  \"id\": 3,\n  \"bookingDate\": \"2024-12-01\",\n  \"bookingStatus\": \"CONFIRMED\",\n  \"tourInstance\": {\n    \"id\": 101,\n    \"languageStatus\": \"ENGLISH\",\n    \"tourDuration\": 5.5,\n    \"startDate\": \"2024-12-01T08:00:00\",\n    \"endDate\": \"2024-12-01T13:30:00\",\n    \"tour\": {\n      \"id\": 1001,\n      \"name\": \"Machu Picchu Experience\"\n    }\n  },\n  \"person\": {\n    \"id\": 501,\n    \"firstname\": \"Luis\",\n    \"lastname\": \"Pérez\",\n    \"user\": {\n      \"id\": 1001,\n      \"username\": \"luis123\"\n    }\n  },\n  \"createdAt\": \"2024-10-13T11:00:00\",\n  \"updatedAt\": \"2024-10-13T11:00:00\"\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar una Reserva",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/bookings/{id}",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"bookings",
+								"{id}"
+							]
+						},
+						"description": "# **PUT - Actualizar una Reserva**\n\n## **Descripción:**\n\nEste endpoint permite **actualizar una reserva existente** mediante su **ID**. Si la reserva con el ID proporcionado no existe, se devolverá un **404 Not Found**.  \n**Permisos:** Requiere que el usuario esté **autenticado**.\n\n## **URL:**\n\nPUT /api/bookings/{id}\n\n## **Parámetro de Ruta:**\n\n**`id`**: ID de la reserva que se desea actualizar.\n\n## **Body (JSON) de la Solicitud:**\n\n``` json\n{\n  \"bookingDate\": \"2024-12-01\",\n  \"bookingStatus\": \"CONFIRMED\",\n  \"tourInstance\": {\n    \"id\": 101,\n    \"languageStatus\": \"ENGLISH\",\n    \"tourDuration\": 5.5,\n    \"startDate\": \"2024-12-01T08:00:00\",\n    \"endDate\": \"2024-12-01T13:30:00\",\n    \"tour\": {\n      \"id\": 1001,\n      \"name\": \"Machu Picchu Experience\"\n    }\n  },\n  \"user\": {\n    \"id\": 501,\n    \"firstname\": \"Luis\",\n    \"lastname\": \"Pérez\",\n    \"user\": {\n      \"id\": 1001,\n      \"username\": \"luis123\"\n    }\n  }\n}\n\n ```\n\nStartFragment\n\n## **Respuestas:**\n\n### **200 OK** – Reserva Actualizada Correctamente\n\n### **404 Not Found** – Reserva No Encontrado"
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar reserva por id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/bookings/{id}",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"bookings",
+								"{id}"
+							]
+						},
+						"description": "## **5\\. DELETE - Eliminar una reserva**\n\n### **Descripción:**\n\nEste endpoint permite **eliminar una reserva existente** mediante su **ID**.\n\n### **URL:**\n\nDELETE /api/bookings/{id}\n\n### **Parámetro de Ruta:**\n\n**`id`**: ID de la reserva que se desea eliminar.\n\n### **Respuestas:**\n\n#### **204 No Content** - Reserva Eliminada\n\n#### **404 Not Found** - Reserva No Encontrada"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Company",
+			"item": [
+				{
+					"name": "Obtener todas las compañías",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/companies",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"companies"
+							]
+						},
+						"description": "## **1\\. GET - Obtener todas las compañías**\n\n### **Descripción:**\n\nEste endpoint permite **obtener la lista de todas las compañías** registradas en el sistema.  \n**Permisos:** Requiere **rol de ADMIN**.\n\n### **URL:**\n\nGET - /api/companies/\n\n### **Respuestas:**\n\n#### **200 OK** – Lista de Compañías\n\n``` json\n[\n  {\n    \"id\": 1,\n    \"name\": \"Compañía A\",\n    \"ruc\": \"12345678901\",\n    \"user\": {\n      \"id\": 101,\n      \"firstname\": \"Juan\",\n      \"lastname\": \"García\",\n      \"email\": \"juan@example.com\",\n      \"role\": \"ADMIN\"\n    }\n  },\n  {\n    \"id\": 2,\n    \"name\": \"Compañía B\",\n    \"ruc\": \"98765432109\",\n    \"user\": {\n      \"id\": 102,\n      \"firstname\": \"Ana\",\n      \"lastname\": \"Pérez\",\n      \"email\": \"ana@example.com\",\n      \"role\": \"USER\"\n    }\n  }\n]\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener compañía por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/companies/{id}",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"companies",
+								"{id}"
+							]
+						},
+						"description": "## **GET - Obtener una compañía por ID**\n\n### **Descripción:**\n\nEste endpoint permite **obtener los detalles de una compañía específica** por su **ID**.  \n**Permisos:** Requiere **rol de ADMIN**.\n\n### **URL:**\n\nGET - /api/companies/{id}\n\n### **Parámetro de Ruta:**\n\n**`id`**: ID de la compañía que se desea obtener.\n\n### **Respuestas:**\n\n#### **200 OK** – Compañía Encontrada\n\n``` json\n{\n  \"id\": 1,\n  \"name\": \"Compañía A\",\n  \"ruc\": \"12345678901\",\n  \"user\": {\n    \"id\": 101,\n    \"firstname\": \"Juan\",\n    \"lastname\": \"García\",\n    \"email\": \"juan@example.com\",\n    \"role\": \"ADMIN\"\n  }\n}\n\n ```\n\n#### **404 Not Found** – Company not found with id"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear una nueva compañía",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/companies",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"companies"
+							]
+						},
+						"description": "## **POST - Crear una nueva compañía**\n\n### **Descripción:**\n\nEste endpoint permite **crear una nueva compañía**.  \n**Permisos:** Requiere **rol de ADMIN**.\n\n### **URL:**\n\nPOST - /api/companies\n\n### **Body Json de la Solicitud**\n\n``` json\n{\n  \"id\": 3,\n  \"name\": \"Compañía C\",\n  \"ruc\": \"11223344556\"\n}\n\n ```\n\n### **Respuestas:**\n\n#### **201 Created** – Compañía Creada"
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar una Compania",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/companies/{id}",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"companies",
+								"{id}"
+							]
+						},
+						"description": "## **PUT - Actualizar una compañía**\n\n### **Descripción:**\n\nEste endpoint permite **actualizar una compañía existente** mediante su **ID**.  \n**Permisos:** Requiere **rol de ADMIN**.\n\n### **URL:**\n\nPUT /api/companies/{id}\n\n### **Parámetro de Ruta:**\n\n**`id`**: ID de la compañía que se desea actualizar.\n\nStartFragment\n\n### **Body (JSON) de la Solicitud:**\n\n``` json\n{\n  \"name\": \"Compañía C Actualizada\",\n  \"ruc\": \"11223344556\"\n}\n\n ```\n\n### **Respuestas:**\n\n#### **200 OK** – Compañía Actualizada\n\n#### 404 Not Found - Compañia con id no encontrado"
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar una compañía",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/companies/{id}",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"companies",
+								"{id}"
+							]
+						},
+						"description": "## **DELETE - Eliminar una compañía**\n\n### **Descripción:**\n\nEste endpoint permite **eliminar una compañía existente** mediante su **ID**.  \n**Permisos:** Requiere **rol de ADMIN**.\n\n### **URL**\n\nDELETE /api/companies/{id}\n\n### **Parámetro de Ruta:**\n\n**`id`**: ID de la compañía que se desea eliminar\n\n### **Respuestas:**\n\n#### **204 No Content** – Compañía Eliminada Correctamente\n\n#### **404 Not Found** – Compañía No Encontrada"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Location",
+			"item": [
+				{
+					"name": "Obtener locations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/locations",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"locations"
+							]
+						},
+						"description": "## **1\\. GET - Obtener todas las ubicaciones**\n\n### **Descripción:**\n\nEste endpoint permite **obtener la lista de todas las ubicaciones** registradas en el sistema.  \n**Permisos:** Requiere **rol de USER**.\n\n### URL:\n\nGET /api/locations\n\n### **Respuestas:**\n\n#### **200 OK** – Lista de Ubicaciones\n\n``` json\n[\n  {\n    \"id\": 1,\n    \"latitude\": -12.046374,\n    \"longitude\": -77.042793,\n    \"address\": \"Lima, Perú\"\n  },\n  {\n    \"id\": 2,\n    \"latitude\": 40.712776,\n    \"longitude\": -74.005974,\n    \"address\": \"New York, USA\"\n  }\n]\n\n ```\n\n  \n\n###"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Location por id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/locations/{id}",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"locations",
+								"{id}"
+							]
+						},
+						"description": "## **2\\. GET - Obtener una ubicación por ID**\n\n### **Descripción:**\n\nEste endpoint permite **obtener los detalles de una ubicación específica** por su **ID**.  \n**Permisos:** Requiere **rol de USER**.\n\n### **URL:**\n\nGET /api/locations/{id}\n\n### **Parámetro de Ruta:**\n\n**`id`**: ID de la ubicación que se desea obtener.\n\n### **Respuestas:**\n\n#### **200 OK** – Ubicación Encontrada\n\n#### **404 Not Found** – Location not found with id"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Nueva Location",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/locations",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"locations"
+							]
+						},
+						"description": "**3\\. POST - Crear una nueva ubicación**\n\n### **Descripción:**\n\nEste endpoint permite **crear una nueva ubicación**.  \n**Permisos:** Requiere **rol de ADMIN**.\n\n### **URL:**\n\nPOST /api/locations\n\n### **Body Json Solicitud:**\n\n``` json\n{\n  \"latitude\": -12.046374,\n  \"longitude\": -77.042793,\n  \"address\": \"Lima, Perú\"\n}\n\n ```\n\n### **Respuestas:**\n\n#### **201 Created** – Ubicación Creada"
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Location",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/locations/{id}",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"locations",
+								"{id}"
+							]
+						},
+						"description": "## **4\\. PUT - Actualizar una ubicación**\n\n### **Descripción:**\n\nEste endpoint permite **actualizar una ubicación existente** mediante su **ID**.  \n**Permisos:** Requiere **rol de ADMIN**.\n\n### **URL:**\n\nPUT /api/locations/{id}\n\n### **Parámetro de Ruta:**\n\n**`id`**: ID de la ubicación que se desea actualizar.\n\n### **Body (JSON) de la Solicitud:**\n\n``` json\n{\n  \"latitude\": 40.712776,\n  \"longitude\": -74.005974,\n  \"address\": \"New York, USA\"\n}\n\n ```\n\n### **Respuestas:**\n\n#### **200 OK** – Ubicación Actualizada\n\n#### **404 Not Found** – Location not found with id"
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Location",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/locations/{id}",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"locations",
+								"{id}"
+							]
+						},
+						"description": "## **5\\. DELETE - Eliminar una ubicación**\n\n### **Descripción:**\n\nEste endpoint permite **eliminar una ubicación existente** mediante su **ID**.  \n**Permisos:** Requiere **rol de ADMIN**.\n\n### **URL:**\n\nDELETE /api/locations/{id}\n\n### **Parámetro de Ruta:**\n\n**`id`**: ID de la ubicación que se desea eliminar.\n\n### **Respuestas:**\n\n#### **204 No Content** – Ubicación Eliminada\n\n#### **404 Not Found** – Location not found with id"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Person",
+			"item": [
+				{
+					"name": "Obtener todas las personas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/persons",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"persons"
+							]
+						},
+						"description": "## **1\\. GET - Obtener todas las personas**\n\n### **Descripción:**\n\nEste endpoint permite **obtener la lista de todas las personas** registradas en el sistema.  \n**Permisos:** Requiere **rol de ADMIN**.\n\n### **URL:**\n\nGET /api/persons\n\n### **Respuestas:**\n\n#### **200 OK** – Lista de Personas\n\n``` json\n[\n  {\n    \"id\": 1,\n    \"firstname\": \"Luis\",\n    \"lastname\": \"Pérez\",\n    \"user\": {\n      \"id\": 1001,\n      \"username\": \"luis123\"\n    }\n  },\n  {\n    \"id\": 2,\n    \"firstname\": \"Ana\",\n    \"lastname\": \"García\",\n    \"user\": {\n      \"id\": 1002,\n      \"username\": \"ana456\"\n    }\n  }\n]\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Person por id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/persons/{id}",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"persons",
+								"{id}"
+							]
+						},
+						"description": "## **2\\. GET - Obtener una persona por ID**\n\n### **Descripción:**\n\nEste endpoint permite **obtener los detalles de una persona específica** por su **ID**.  \n**Permisos:** Requiere **rol de ADMIN**.\n\n### **URL:**\n\nGET /api/persons/{id}\n\n### **Parámetro de Ruta:**\n\n**`id`**: ID de la persona que se desea obtener.\n\n### **Respuestas:**\n\n#### **200 OK** – Persona Encontrada\n\n``` json\n{\n  \"id\": 1,\n  \"firstname\": \"Luis\",\n  \"lastname\": \"Pérez\",\n  \"user\": {\n    \"id\": 1001,\n    \"username\": \"luis123\"\n  }\n}\n\n ```\n\n#### **404 Not Found** – Person not found with id"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear nueva Person",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/persons",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"persons"
+							]
+						},
+						"description": "## **3\\. POST - Crear una nueva persona**\n\n### **Descripción:**\n\nEste endpoint permite **crear una nueva persona**.  \n**Permisos:** Requiere **rol de ADMIN**.\n\n### **URL:**\n\nPOST /api/persons\n\n### **Body Json de la solicitud:**\n\n``` json\n{\n  \"firstname\": \"Carlos\",\n  \"lastname\": \"Mendoza\"\n}\n\n ```\n\n### **Respuestas:**\n\n#### **201 Created** – Persona Creada"
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Person",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/persons/{id}",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"persons",
+								"{id}"
+							]
+						},
+						"description": "## **4\\. PUT - Actualizar una persona**\n\n### **Descripción:**\n\nEste endpoint permite **actualizar una persona existente** mediante su **ID**.  \n**Permisos:** Requiere **rol de ADMIN**.\n\n### **URL:**\n\nPUT /api/persons/{id}\n\n### **Parámetro de Ruta:**\n\n**`id`**: ID de la persona que se desea actualizar.\n\n### **Body (JSON) de la Solicitud:**\n\n``` json\n{\n  \"firstname\": \"Carlos\",\n  \"lastname\": \"Mendoza\"\n}\n\n ```\n\n### **Respuestas:**\n\n#### **200 OK** – Persona Actualizada\n\n#### **404 Not Found** – Person not found with id"
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Person",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/persons/{id}",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"persons",
+								"{id}"
+							]
+						},
+						"description": "## **5\\. DELETE - Eliminar una persona**\n\n### **Descripción:**\n\nEste endpoint permite **eliminar una persona existente** mediante su **ID**.  \n**Permisos:** Requiere **rol de ADMIN**\n\n### **URL:**\n\nDELETE /api/persons/{id}\n\n### **Parámetro de Ruta:**\n\n**`id`**: ID de la persona que se desea eliminar.\n\n### **Respuestas:**\n\n#### **204 No Content** – Persona Eliminada\n\n#### **404 Not Found** – Person not found with id"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Review",
+			"item": [
+				{
+					"name": "Obtener Reviews",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/reviews",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"reviews"
+							]
+						},
+						"description": "## **1\\. GET - Obtener todas las reseñas**\n\n### **Descripción:**\n\nEste endpoint permite **obtener la lista de todas las reseñas** registradas en el sistema.  \n**Permisos:** No requiere autenticación.\n\n### **URL:**\n\nGET /api/reviews\n\n### **Respuestas:**\n\n#### **200 OK** – Lista de Reseñas\n\n``` json\n[\n  {\n    \"id\": 1,\n    \"author\": {\n      \"id\": 1001,\n      \"username\": \"luis123\"\n    },\n    \"comment\": \"Excelente tour\",\n    \"rating\": 5,\n    \"tour\": {\n      \"id\": 101,\n      \"name\": \"Machu Picchu Experience\"\n    }\n  },\n  {\n    \"id\": 2,\n    \"author\": {\n      \"id\": 1002,\n      \"username\": \"ana456\"\n    },\n    \"comment\": \"Muy divertido, pero algo agotador\",\n    \"rating\": 4,\n    \"tour\": {\n      \"id\": 102,\n      \"name\": \"City Tour Cusco\"\n    }\n  }\n]\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Review por id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/reviews/{id}",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"reviews",
+								"{id}"
+							]
+						},
+						"description": "## **2\\. GET - Obtener una reseña por ID**\n\n### **Descripción:**\n\nEste endpoint permite **obtener los detalles de una reseña específica** por su **ID**.\n\n### **URL:**\n\nGET /api/reviews/{id}\n\n### **Parámetro de Ruta:**\n\n**`id`**: ID de la reseña que se desea obtener.\n\n### **Respuestas:**\n\n#### **200 OK** – Reseña Encontrada\n\n``` json\n{\n  \"id\": 1,\n  \"author\": {\n    \"id\": 1001,\n    \"username\": \"luis123\"\n  },\n  \"comment\": \"Excelente tour\",\n  \"rating\": 5,\n  \"tour\": {\n    \"id\": 101,\n    \"name\": \"Machu Picchu Experience\"\n  }\n}\n\n ```\n\n#### **404 Not Found** – Review not found with id"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear nueva Review",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/reviews",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"reviews"
+							]
+						},
+						"description": "## **3\\. POST - Crear una nueva reseña**\n\n### **Descripción:**\n\nEste endpoint permite **crear una nueva reseña**.  \n**Permisos:** Requiere que el usuario esté **autenticado**\n\n### **URL:**\n\nPOST /api/reviews\n\n### **Body (JSON) de la Solicitud:**\n\n``` json\n{\n  \"author\": {\n    \"id\": 1001\n  },\n  \"comment\": \"Increíble experiencia\",\n  \"rating\": 5,\n  \"tour\": {\n    \"id\": 101\n  }\n}\n\n ```\n\n### **Respuestas:**\n\n#### **201 Created** – Reseña Creada\n\n#### **401 Unauthorized** – Usuario No Autenticado"
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Review",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/reviews/{id}",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"reviews",
+								"{id}"
+							]
+						},
+						"description": "## **4\\. PUT - Actualizar una reseña**\n\n### **Descripción:**\n\nEste endpoint permite **actualizar una reseña existente** mediante su **ID**.  \n**Permisos:** Requiere que el usuario esté **autenticado**.\n\n### **URL:**\n\nPUT /api/reviews/{id}\n\n### **Parámetro de Ruta:**\n\n**`id`**: ID de la reseña que se desea actualizar.\n\n### Body (JSON) de la Solicitud:\n\n``` json\n{\n  \"author\": {\n    \"id\": 1001\n  },\n  \"comment\": \"Experiencia renovada\",\n  \"rating\": 4,\n  \"tour\": {\n    \"id\": 101\n  }\n}\n\n ```\n\n### **Respuestas:**\n\n#### **200 OK** – Reseña Actualizada\n\n#### **404 Not Found** – Review not found with id"
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Review",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/reviews/{id}",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"reviews",
+								"{id}"
+							]
+						},
+						"description": "## **5\\. DELETE - Eliminar una reseña**\n\n### **Descripción:**\n\nEste endpoint permite **eliminar una reseña existente** mediante su **ID**.  \n**Permisos:** Requiere que el usuario tenga **rol de ADMIN**.\n\n### **URL:**\n\nDELETE /api/reviews/{id}\n\n### **Parámetro de Ruta:**\n\n**`id`**: ID de la reseña que se desea eliminar.\n\n### **Respuestas:**\n\n#### **204 No Content** – Reseña Eliminada\n\n#### **404 Not Found** – Review not found with id"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tour",
+			"item": [
+				{
+					"name": "Obtener todos los Tours",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/tours",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"tours"
+							]
+						},
+						"description": "## **1\\. GET - Obtener todos los tours**\n\n### **Descripción:**\n\nEste endpoint permite **obtener la lista de todos los tours** registrados en el sistema.\n\n### **URL:**\n\nGET /api/tours\n\n### **Respuestas:**\n\n#### **200 OK** – Lista de Tours\n\n``` json\n[\n  {\n    \"id\": 1,\n    \"title\": \"Machu Picchu Experience\",\n    \"description\": \"Un recorrido espectacular por la maravilla del mundo.\",\n    \"price\": 150.0,\n    \"tourCategory\": {\n      \"id\": 1,\n      \"name\": \"Aventura\"\n    },\n    \"imageUrls\": [\"https://example.com/image1.jpg\", \"https://example.com/image2.jpg\"],\n    \"location\": {\n      \"id\": 1,\n      \"address\": \"Lima, Perú\"\n    },\n    \"company\": {\n      \"id\": 101,\n      \"name\": \"Tour Perú S.A.\"\n    }\n  }\n]\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Tour por id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/tours/{id}",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"tours",
+								"{id}"
+							]
+						},
+						"description": "## **2\\. GET - Obtener un tour por ID**\n\n### **Descripción:**\n\nEste endpoint permite **obtener los detalles de un tour específico** por su **ID**.\n\n### **URL:**\n\nGET /api/tours/{id}\n\n### **Parámetro de Ruta:**\n\n**`id`**: ID del tour que se desea obtener.\n\n### **Respuestas:**\n\n#### **200 OK** – Tour Encontrado\n\n``` json\n{\n  \"id\": 1,\n  \"title\": \"Machu Picchu Experience\",\n  \"description\": \"Un recorrido espectacular por la maravilla del mundo.\",\n  \"price\": 150.0,\n  \"tourCategory\": {\n    \"id\": 1,\n    \"name\": \"Aventura\"\n  },\n  \"imageUrls\": [\"https://example.com/image1.jpg\", \"https://example.com/image2.jpg\"],\n  \"location\": {\n    \"id\": 1,\n    \"address\": \"Lima, Perú\"\n  },\n  \"company\": {\n    \"id\": 101,\n    \"name\": \"Tour Perú S.A.\"\n  }\n}\n\n\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Nuevo Tour",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/tours",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"tours"
+							]
+						},
+						"description": "## **3\\. POST - Crear un nuevo tour**\n\n### **Descripción:**\n\nEste endpoint permite **crear un nuevo tour**.\n\n### **URL:**\n\nPOST /api/tours\n\n### **Body (JSON) de la Solicitud:**\n\n``` json\n{\n  \"title\": \"City Tour Cusco\",\n  \"description\": \"Descubre los lugares más emblemáticos de Cusco.\",\n  \"price\": 100.0,\n  \"tourCategory\": 2,\n  \"imageUrls\": [\"https://example.com/image3.jpg\", \"https://example.com/image4.jpg\"]\n}\n\n\n ```\n\n### **Respuestas:**\n\n#### **201 Created** – Tour Creado\n\n  \n\n###"
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar un Tour",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/tours/{id}",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"tours",
+								"{id}"
+							]
+						},
+						"description": "## **4\\. PUT - Actualizar un tour**\n\n### **Descripción:**\n\nEste endpoint permite **actualizar un tour existente** mediante su **ID**\n\n### **URL:**\n\nPUT /api/tours/{id}\n\n### **Parámetro de Ruta:**\n\n**`id`**: ID del tour que se desea actualizar\n\n### **Body (JSON) de la Solicitud:**\n\n``` json\n{\n  \"title\": \"City Tour Cusco Actualizado\",\n  \"description\": \"Explora la cultura y la historia de Cusco.\",\n  \"price\": 120.0,\n  \"tourCategory\": 2,\n  \"imageUrls\": [\"https://example.com/image3.jpg\", \"https://example.com/image4.jpg\"]\n}\n\n ```\n\n### **Respuestas:**\n\n#### **200 OK** – Tour Actualizado"
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Tour",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/tours/{id}",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"tours",
+								"{id}"
+							]
+						},
+						"description": "## **5\\. DELETE - Eliminar un tour**\n\n### **Descripción:**\n\nEste endpoint permite **eliminar un tour existente** mediante su **ID**\n\n### **URL:**\n\nDELETE /api/tours/{id}\n\n### **Parámetro de Ruta:**\n\n**`id`**: ID del tour que se desea eliminar.\n\n### **Respuestas:**\n\n#### **204 No Content** – Tour Eliminado"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TourCategory",
+			"item": [
+				{
+					"name": "Obtener todas categorías de Tour",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/tour-categories",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"tour-categories"
+							]
+						},
+						"description": "## **1\\. GET - Obtener todas las categorías de tours**\n\n### **Descripción:**\n\nEste endpoint permite **obtener la lista de todas las categorías de tours** disponibles en el sistema.\n\n### **URL:**\n\nGET /api/tour-categories\n\n### **Respuestas:**\n\n#### **200 OK** – Lista de Categorías\n\n``` json\n[\n  {\n    \"id\": 1,\n    \"name\": \"ADVENTURE\",\n    \"description\": \"Tours de aventura para los más atrevidos.\"\n  },\n  {\n    \"id\": 2,\n    \"name\": \"CULTURAL\",\n    \"description\": \"Explora la cultura de diversas regiones.\"\n  }\n]\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Categoría de Tour por id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/tour-categories/{id}",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"tour-categories",
+								"{id}"
+							]
+						},
+						"description": "## **2\\. GET - Obtener una categoría por ID**\n\n### **Descripción:**\n\nEste endpoint permite **obtener los detalles de una categoría específica** por su **ID**.\n\n### **URL:**\n\nGET /api/tour-categories/{id}\n\n### **Parámetro de Ruta:**\n\n**`id`**: ID de la categoría que se desea obtener.\n\n### **Respuestas:**\n\n#### **200 OK** – Categoría Encontrada\n\n#### **404 Not Found** – Tour Category not found with id"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Categoría de Tour",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/tour-categories",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"tour-categories"
+							]
+						},
+						"description": "## **3\\. POST - Crear una nueva categoría**\n\n### **Descripción:**\n\nEste endpoint permite **crear una nueva categoría de tour**.\n\n### **URL:**\n\nPOST /api/tour-categories\n\n### **Body (JSON) de la Solicitud:**\n\n``` json\n{\n  \"name\": \"NATURE\",\n  \"description\": \"Descubre la belleza natural del mundo.\"\n}\n\n ```\n\n### **Respuestas:**\n\n#### **201 Created** – Categoría Creada"
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Categoría de Tour",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/tour-categories/{id}",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"tour-categories",
+								"{id}"
+							]
+						},
+						"description": "## **4\\. PUT - Actualizar una categoría**\n\n### **Descripción:**\n\nEste endpoint permite **actualizar una categoría de tour existente** mediante su **ID**.\n\n### **URL:**\n\nPUT /api/tour-categories/{id}\n\n### **Parámetro de Ruta:**\n\n**`id`**: ID de la categoría que se desea actualizar.\n\n### **Body (JSON) de la Solicitud:**\n\n``` json\n{\n  \"name\": \"HISTORICAL\",\n  \"description\": \"Explora sitios históricos fascinantes.\"\n}\n\n ```\n\n### **Respuestas:**\n\n#### **200 OK** – Categoría Actualizada"
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Categoría de Tour",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/tour-categories/{id}",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"tour-categories",
+								"{id}"
+							]
+						},
+						"description": "## **5\\. DELETE - Eliminar una categoría**\n\n### **Descripción:**\n\nEste endpoint permite **eliminar una categoría de tour existente** mediante su **ID**.\n\n### **URL:**\n\nDELETE /api/tour-categories/{id}\n\n### **Parámetro de Ruta:**\n\n**`id`**: ID de la categoría que se desea eliminar\n\n### **Respuestas:**\n\n#### **204 No Content** – Categoría Eliminada"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TourInstance",
+			"item": [
+				{
+					"name": "Obtener Tour Instances",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/tour-instances",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"tour-instances"
+							]
+						},
+						"description": "## **1\\. GET - Obtener todas las instancias de tours**\n\n### **Descripción:**\n\nEste endpoint permite **obtener todas las instancias de tours** registradas en el sistema.\n\n### **URL:**\n\nGET /api/tour-instances\n\n### **Respuestas:**\n\n#### **200 OK** - Lista de Instancias de Tour\n\n``` json\n[\n  {\n    \"id\": 1,\n    \"languageStatus\": \"ENGLISH\",\n    \"tourDuration\": 2.5,\n    \"tourId\": 101,\n    \"startDate\": \"2024-10-15T09:00:00\",\n    \"endDate\": \"2024-10-15T11:30:00\"\n  },\n  {\n    \"id\": 2,\n    \"languageStatus\": \"SPANISH\",\n    \"tourDuration\": 3.0,\n    \"tourId\": 102,\n    \"startDate\": \"2024-11-01T14:00:00\",\n    \"endDate\": \"2024-11-01T17:00:00\"\n  }\n]\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Tour Instance por id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/tour-instances/{id}",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"tour-instances",
+								"{id}"
+							]
+						},
+						"description": "## **2\\. GET - Obtener una instancia de tour por ID**\n\n### **Descripción:**\n\nEste endpoint permite **obtener una instancia de tour específica** por su **ID**.\n\n### **URL:**\n\nGET /api/tour-instances/{id}\n\n### **Parámetro de Ruta:**\n\n**`id`**: ID de la instancia de tour que se desea obtener.\n\n### **Respuestas:**\n\n#### **200 OK** - Instancia Encontrada\n\nStartFragment\n\n#### **404 Not Found** - TourInstance not found with id"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Tour Instance",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/tour-instances",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"tour-instances"
+							]
+						},
+						"description": "## **3\\. POST - Crear una nueva instancia de tour**\n\n### **Descripción:**\n\nEste endpoint permite **crear una nueva instancia de tour**.\n\n### **URL:**\n\nPOST /api/tour-instances\n\n### **Body (JSON) de la Solicitud:**\n\n``` json\n{\n  \"languageStatus\": \"FRENCH\",\n  \"tourDuration\": 4.0,\n  \"tourId\": 103,\n  \"startDate\": \"2024-12-01T10:00:00\",\n  \"endDate\": \"2024-12-01T14:00:00\"\n}\n\n ```\n\n### **Respuestas:**\n\n#### **201 Created** - Instancia Creada"
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Tour Instance",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/tour-instances/{id}",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"tour-instances",
+								"{id}"
+							]
+						},
+						"description": "## **4\\. PUT - Actualizar una instancia de tour**\n\n### **Descripción:**\n\nEste endpoint permite **actualizar una instancia de tour existente** mediante su **ID**.\n\n### **URL:**\n\nPUT /api/tour-instances/{id}\n\n### **Parámetro de Ruta:**\n\n**`id`**: ID de la instancia de tour que se desea actualizar.\n\n### **Body (JSON) de la Solicitud:**\n\n``` json\n{\n  \"languageStatus\": \"SPANISH\",\n  \"tourDuration\": 3.5,\n  \"tourId\": 101,\n  \"startDate\": \"2024-10-20T09:00:00\",\n  \"endDate\": \"2024-10-20T12:30:00\"\n}\n\n ```\n\n### **Respuestas:**\n\n#### **200 OK** - Instancia Actualizada"
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Tour Instance",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/tour-instances/{id}",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"tour-instances",
+								"{id}"
+							]
+						},
+						"description": "## **5\\. DELETE - Eliminar una instancia de tour**\n\n### **Descripción:**\n\nEste endpoint permite **eliminar una instancia de tour existente** mediante su **ID**.\n\n### **URL:**\n\nDELETE /api/tour-instances/{id}\n\n### **Parámetro de Ruta:**\n\n**`id`**: ID de la instancia de tour que se desea eliminar.\n\n### **Respuestas:**\n\n#### **204 No Content** - Instancia Eliminada"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Obtener todos los Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/users",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						},
+						"description": "## **1\\. GET - Obtener todos los usuarios**\n\n### **Descripción:**\n\nEste endpoint permite **obtener la lista de todos los usuarios** registrados en el sistema.\n\n### **URL:**\n\nGET /api/users\n\n### **Respuestas:**\n\n#### **200 OK** - Lista de Usuarios\n\n``` json\n[\n  {\n    \"id\": 1,\n    \"firstname\": \"Luis\",\n    \"lastname\": \"Pérez\",\n    \"email\": \"luis@example.com\",\n    \"role\": \"USER\"\n  },\n  {\n    \"id\": 2,\n    \"firstname\": \"Ana\",\n    \"lastname\": \"García\",\n    \"email\": \"ana@example.com\",\n    \"role\": \"ADMIN\"\n  }\n]\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener User por id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/users/{id}",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{id}"
+							]
+						},
+						"description": "## **2\\. GET - Obtener un usuario por ID**\n\n### **Descripción:**\n\nEste endpoint permite **obtener los detalles de un usuario específico** mediante su **ID**.\n\n### **URL:**\n\nGET /api/users/{id}\n\n### **Parámetro de Ruta:**\n\n**`id`**: ID del usuario que se desea obtener.\n\n### **Respuestas:**\n\n#### **200 OK** - Usuario Encontrado\n\n#### **404 Not Found** - User not found with id\n\n####"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/users",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						},
+						"description": "## **3\\. POST - Crear un nuevo usuario**\n\n### **Descripción:**\n\nEste endpoint permite **crear un nuevo usuario**.\n\n### **URL:**\n\nPOST /api/users\n\n### **Body (JSON) de la Solicitud:**\n\n``` json\n{\n  \"firstname\": \"Carlos\",\n  \"lastname\": \"Ramírez\",\n  \"email\": \"carlos@example.com\",\n  \"password\": \"securePassword123\",\n  \"role\": \"USER\"\n}\n\n ```\n\n### **Respuestas:**\n\n#### **201 Created** - Usuario Creado\n\n#### **409 Conflict** - Email Ya Registrado"
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/users/{id}",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{id}"
+							]
+						},
+						"description": "## **4\\. PUT - Actualizar un usuario**\n\n### **Descripción:**\n\nEste endpoint permite **actualizar un usuario existente** mediante su **ID**.\n\n### URL:\n\nPUT /api/users/{id}\n\n### **Parámetro de Ruta:**\n\n**`id`**: ID del usuario que se desea actualizar.\n\n### **Body (JSON) de la Solicitud:**\n\n``` json\n{\n  \"firstname\": \"Carlos\",\n  \"lastname\": \"Ramírez\",\n  \"email\": \"carlos_updated@example.com\",\n  \"password\": \"newPassword456\",\n  \"role\": \"ADMIN\"\n}\n\n ```\n\n### **Respuestas:**\n\n#### **200 OK** - Usuario Actualizado"
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{{{base_url}}}}{{{{port}}}}/api/users/{id}",
+							"host": [
+								"{{{{base_url}}}}{{{{port}}}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{id}"
+							]
+						},
+						"description": "## **5\\. DELETE - Eliminar un usuario**\n\n### **Descripción:**\n\nEste endpoint permite **eliminar un usuario existente** mediante su **ID**.\n\n### **URL:**\n\nDELETE /api/users/{id}\n\n### **Parámetro de Ruta:**\n\n**`id`**: ID del usuario que se desea eliminar.\n\n### **Respuestas:**\n\n#### **204 No Content** - Usuario Eliminado\n\n#### **404 Not Found** - User not found with id"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{auth_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "{{base_url}}",
+			"value": "http://localhost",
+			"type": "string"
+		},
+		{
+			"key": "{{port}}",
+			"value": "8080",
+			"type": "string"
+		}
+	]
+}

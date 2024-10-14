@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.dbp.backendtourplus.tour.infrastructure.TourRepositoryTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.241 s -- in com.dbp.backendtourplus.tour.infrastructure.TourRepositoryTest
