@@ -1,11 +1,14 @@
-# Usa una imagen base de JDK para compilar y correr la aplicación
-FROM openjdk:17-jdk-alpine
+# Use an official OpenJDK runtime as a parent image
+FROM openjdk:21-jdk-slim
 
-# Argumento para el JAR generado
-ARG JAR_FILE=target/*.jar
+# Set the working directory in the container
+WORKDIR /app
 
-# Copia el JAR dentro de la imagen
-COPY ${JAR_FILE} app.jar
+# Copy the application's jar to the container
+COPY target/backendtourplus-0.0.1-SNAPSHOT.jar app.jar
 
-# Ejecuta la aplicación Spring Boot
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+# Make port 8080 available to the world outside this container
+EXPOSE 8080
+
+# Run the jar file
+ENTRYPOINT ["java", "-jar", "app.jar"]
